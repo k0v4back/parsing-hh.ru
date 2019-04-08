@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"fmt"
+	"./core/search"
 )
 
 func Main(w http.ResponseWriter, r *http.Request)  {
@@ -11,7 +12,13 @@ func Main(w http.ResponseWriter, r *http.Request)  {
 
 func Test(w http.ResponseWriter, r *http.Request)  {
 		area := r.FormValue("area")
-		fmt.Println(area)
+
+		result := search.IdOfAreaCountry(area)
+		if result != search.NotFound {
+			search.DataOfArea(result)
+		}
+
+		//fmt.Println(result)
 }
 
 func main() {
