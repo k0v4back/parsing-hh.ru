@@ -3,7 +3,8 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"./core/search"
+	//"./core/search"
+	"./core/elastic"
 )
 
 func Main(w http.ResponseWriter, r *http.Request)  {
@@ -11,12 +12,20 @@ func Main(w http.ResponseWriter, r *http.Request)  {
 }
 
 func Test(w http.ResponseWriter, r *http.Request)  {
-		area := r.FormValue("area")
+		//area := r.FormValue("area")
 
-		result := search.IdOfAreaCountry(area)
-		if result != search.NotFound {
-			search.DataOfArea(result)
-		}
+		//result := search.InfoAboutOneCountry(area)
+		//if result!= nil {
+		//	//search.DataOfArea(result)
+		//	fmt.Println(result.Url)
+		//}
+
+		//result := search.InfoAboutAllCountries()
+		//for _, v := range *result {
+		//	fmt.Println(v.Name)
+		//}
+
+		elastic.Test()
 
 		//fmt.Println(result)
 }

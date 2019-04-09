@@ -36,7 +36,7 @@ type City struct {
 	Name string `json:"name"`
 }
 
-func IdOfAreaCountry(country string) string {
+func InfoAboutOneCountry(country string) *Countries {
 	resp, err := http.Get("https://api.hh.ru/areas/countries")
 	if err != nil {
 		log.Fatal(err)
@@ -57,11 +57,41 @@ func IdOfAreaCountry(country string) string {
 
 	for _, v := range c {
 		if v.Name == country {
-			return v.Id
+			return &Countries{v.Id, v.Name, v.Url}
 		}
-		return NotFound
+		return nil
 	}
-	return NotFound
+	return nil
+}
+
+
+func InfoAboutAllCountries() *[]Countries {
+	resp, err := http.Get("https://api.hh.ru/areas/countries")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var c []Countries
+	err = json.Unmarshal(body, &c)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &c
+//	for _, v := range c {
+//		if v.Name == country {
+//			return &Countries{v.Id, v.Name, v.Url}
+//		}
+//		return nil
+//	}
+//	return nil
 }
 
 
