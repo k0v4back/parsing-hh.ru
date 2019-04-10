@@ -1,9 +1,8 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
-	//"./core/search"
+	"net/http"
 	"./core/elastic"
 )
 
@@ -31,6 +30,7 @@ func Test(w http.ResponseWriter, r *http.Request)  {
 }
 
 func main() {
+
 	http.HandleFunc("/test", Test)
 	http.HandleFunc("/", Main)
 
