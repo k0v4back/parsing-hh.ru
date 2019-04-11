@@ -8,18 +8,18 @@ import (
 	"fmt"
 )
 
-type Countries struct {
+type countries struct {
 	Id 		string `json:"id"`
 	Name 	string `json:"name"`
 	Url 	string `json:"url"`
 }
-const mapping = `
+const mapp = `
 {
 	"settings":{
 		"number_of_shards": 1,
 		"number_of_replicas": 0
 	},
-	"mappings":{
+	"maps":{
 		"country":{
 			"properties":{
 				"id":{
