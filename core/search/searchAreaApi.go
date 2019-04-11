@@ -2,7 +2,6 @@ package search
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -85,17 +84,10 @@ func InfoAboutAllCountries() *[]Countries {
 	}
 
 	return &c
-//	for _, v := range c {
-//		if v.Name == country {
-//			return &Countries{v.Id, v.Name, v.Url}
-//		}
-//		return nil
-//	}
-//	return nil
 }
 
 
-func DataOfArea(country_id string) {
+func DataOfAllRegions(country_id string) *[]Region {
 	resp, err := http.Get("https://api.hh.ru/areas/" + country_id)
 	if err != nil {
 		log.Fatal(err)
@@ -114,24 +106,5 @@ func DataOfArea(country_id string) {
 		log.Fatal(err)
 	}
 
-	fmt.Println(c)
-
-	//for _, v := range c.Areas {
-	//	fmt.Println(v.Name)
-	//}
-
-	for _, v := range c.Areas {
-		regions := v.Areas
-		for _, d := range regions {
-			fmt.Printf("City %s; id - %s ", d.Name, d.Id)
-		}
-	}
-
-	//for _, v := range c {
-	//	if v.Name == country {
-	//		return ResponseCountry{v.Id, v.Name, v.Url, nil}
-	//	}
-	//	return ResponseCountry{nil, nil, nil, "404"}
-	//}
-	//return ResponseCountry{nil, nil, nil, "404"}
+	return &c.Areas
 }

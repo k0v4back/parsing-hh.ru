@@ -38,7 +38,7 @@ const mapping = `
 	}
 }`
 
-func connectToElastic() *elastic.Client {
+func ConnectToElastic() *elastic.Client {
 	ctx := context.Background()
 
 	//Connect to elastic
@@ -63,7 +63,7 @@ func connectToElastic() *elastic.Client {
 func PutCountry(id, name, url string) error {
 	ctx := context.Background()
 
-	client := connectToElastic()
+	client := ConnectToElastic()
 
 	country := Countries{Id: id, Name: name, Url: url}
 	_, e := client.Index().
