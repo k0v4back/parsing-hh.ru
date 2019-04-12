@@ -22,7 +22,7 @@ func Main(w http.ResponseWriter, r *http.Request)  {
 func Test(w http.ResponseWriter, r *http.Request)  {
 		area := r.FormValue("area")
 
-		result := search.DataOfAllRegions(area)
+		result := search.DataOfAllRegionsInCountry(area)
 		for _, v := range *result {
 			err := elastic.PutRegion(v.Id, v.ParentId, v.Name)
 			if err != nil {
@@ -43,11 +43,27 @@ func UploadCountries(w http.ResponseWriter, r *http.Request)  {
 	json.NewEncoder(w).Encode(resp)
 }
 
+func UploadRegions(w http.ResponseWriter, r *http.Request) {
+	result := search.InfoAboutAllCountries()
+	for _, v := range *result {
+		result := search.DataOfAllRegionsInCountry(v.Id)
+		for _, v := range *result {
+			go func (){
+				err := elastic.PutRegion(v.Id, v.ParentId, v.Name)
+				if err != nil {
+					log.Fatal("Error with uploading regions to elastic")
+				}
+			}()
+		}
+	}
+}
+
 
 func main() {
 	http.HandleFunc("/test", Test)
 	http.HandleFunc("/", Main)
 	http.HandleFunc("/upload/countries", core.JsonMiddleware(UploadCountries))
+	http.HandleFunc("/upload/regions", core.JsonMiddleware(UploadRegions))
 
 	fmt.Println("Server is listening...")
 	http.ListenAndServe(":8080", nil)

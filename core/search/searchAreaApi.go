@@ -87,7 +87,7 @@ func InfoAboutAllCountries() *[]Countries {
 }
 
 
-func DataOfAllRegions(country_id string) *[]Region {
+func DataOfAllRegionsInCountry(country_id string) *[]Region {
 	resp, err := http.Get("https://api.hh.ru/areas/" + country_id)
 	if err != nil {
 		log.Fatal(err)
