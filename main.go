@@ -8,6 +8,7 @@ import (
 	"./core/search"
 	"./core/elastic"
 	"./core"
+	//"reflect"
 )
 
 type Response struct {
@@ -20,15 +21,7 @@ func Main(w http.ResponseWriter, r *http.Request)  {
 }
 
 func Test(w http.ResponseWriter, r *http.Request)  {
-		area := r.FormValue("area")
-
-		result := search.DataOfAllRegionsInCountry(area)
-		for _, v := range *result {
-			err := elastic.PutRegion(v.Id, v.ParentId, v.Name)
-			if err != nil {
-				log.Fatal("Error with uploading regions to elastic")
-			}
-		}
+	elastic.GetCountryByName("Казахстан")
 }
 
 func UploadCountries(w http.ResponseWriter, r *http.Request)  {
